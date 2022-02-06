@@ -20,7 +20,7 @@ def go(config: DictConfig):
         # This was passed on the command line as a comma-separated list of steps
         steps_to_execute = config["main"]["execute_steps"].split(",")
     else:
-        assert isinstance(config["main"]["execute_steps"], list)
+        # assert isinstance(config["main"]["execute_steps"], list)
         steps_to_execute = config["main"]["execute_steps"]
 
     # Download step
@@ -44,8 +44,8 @@ def go(config: DictConfig):
             "main",
             parameters={
                 "input_artifact":"raw_data.parquet:latest",
-                "artifact_name": "processed_data.csv",
-                "artifact_type": "processed_data",
+                "artifact_name": "preprocessed_data.csv",
+                "artifact_type": "preprocessed_data",
                 "artifact_description": "processed data"
             },
         )
@@ -57,7 +57,7 @@ def go(config: DictConfig):
             "main",
             parameters={
                 "reference_artifact":config["data"]["reference_dataset"],
-                "sample_artifact": "processed_data.csv:latest",
+                "sample_artifact": "preprocessed_data.csv:latest",
                 "ks_alpha": config["data"]["ks_alpha"],
             },
         )
@@ -72,7 +72,6 @@ def go(config: DictConfig):
                 "artifact_root": "data",
                 "artifact_type": "segregated_data",
                 "test_size": config["data"]["test_size"],
-                "random_state": config["data"]["random_state"],
                 "stratify":  config["data"]["stratify"]
             },
         )
@@ -105,7 +104,7 @@ def go(config: DictConfig):
             "main",
             parameters={
                 "model_export": f'{config["random_forest_pipeline"]["export_artifact"]}:latest',
-                "test_data": "data_test:latest"
+                "test_data": "data_test.csv:latest"
             },
         )
 

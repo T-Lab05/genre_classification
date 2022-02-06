@@ -1,2 +1,5 @@
-mlruns/*
-outputs/*
+mlruns
+outputs
+wandb
+artifacts
+*.pyc
